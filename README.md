@@ -1,2 +1,3 @@
-# EasyMarkdown
-Markdown笔记本
+# MDEditor
+**MD = Material Design**
+**MD = Markdown**
