@@ -1,4 +1,4 @@
-package com.huangyu.easymarkdown;
+package com.huangyu.mdeditor;
 
 import org.junit.Test;
 
