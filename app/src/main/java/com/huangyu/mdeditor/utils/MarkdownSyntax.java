@@ -8,6 +8,22 @@ import java.util.regex.Pattern;
  */
 public class MarkdownSyntax {
 
+    private MarkdownSyntax() {
+    }
+
+    /**
+     * 获取样式
+     *
+     * @param markdownString
+     * @return
+     */
+    public static Pattern getPattern(String markdownString, boolean isMultiLine) {
+        if (isMultiLine) {
+            return Pattern.compile(markdownString, Pattern.MULTILINE);
+        }
+        return Pattern.compile(markdownString, Pattern.CASE_INSENSITIVE);
+    }
+
     /**
      * 标题
      * # H1
@@ -17,10 +33,11 @@ public class MarkdownSyntax {
      * ##### H5
      * ###### H6
      */
-    public static Pattern HEADERS = Pattern.compile("(#+) (.*)", Pattern.CASE_INSENSITIVE);
+    public static String HEAD_LINE = "^ *(#{1,6}) *([^\\n]+?) *#* *(?:\\n+|$)";
+//    public static String HEAD_LINE = "^ *(#{1,6}) (.*)";
 
     /**
-     * 块注释
+     * 区块引用
      * > This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
      * > consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
      * > Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
@@ -28,26 +45,36 @@ public class MarkdownSyntax {
      * > Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
      * > id sem consectetuer libero luctus adipiscing.
      */
-    public static Pattern BLOCKS = Pattern.compile("\\n(&gt;|>)(.*)", Pattern.CASE_INSENSITIVE);
+    public static String BLOCK_QUOTES = "^( *>[^\\n]+(\\n(?!def)[^\\n]+)*\\n*)+";
+//    public static String BLOCK_QUOTES = "\\n(&gt;|>)(.*)";
 
     /**
      * 斜体
      * _italic_
-     * *italic_
+     * *italic*
      */
-    public static Pattern ITALIC = Pattern.compile("(\\*|_)(.*?)\\1", Pattern.CASE_INSENSITIVE);
+    public static String ITALIC = "(\\*|_)(.*?)\\1";
 
     /**
      * 粗体
      * __bold__
-     * *bold**
+     * **bold**
      */
-    public static Pattern BOLD = Pattern.compile("(\\*\\*|__)(.*?)\\1", Pattern.CASE_INSENSITIVE);
+    public static String BOLD = "(\\*\\*|__)(.*?)\\1";
 
     /**
      * 无序符号
+     * * Red
+     * * Green
+     * * Blue
+     * + Red
+     * + Green
+     * + Blue
+     * - Red
+     * - Green
+     * - Blue
      */
-    public static Pattern DISORDER = Pattern.compile("((^\\*)|(^\\+)|(^-))\\s+(.*)", Pattern.CASE_INSENSITIVE);
+    public static String DISORDER = "((^\\*)|(^\\+)|(^-))\\s+(.*)";
 
     /**
      * 有序符号
@@ -55,19 +82,19 @@ public class MarkdownSyntax {
      * 2. McHale
      * 3. Parish
      */
-    public static Pattern ORDER = Pattern.compile("^[0-9]+\\.(.*)", Pattern.CASE_INSENSITIVE);
+    public static String ORDER = "((^\\*)|(^\\+)|(^-))\\s+(.*)";
 
     /**
      * 段落
-     *  This is a list item with two paragraphs.         Lorem ipsum dolor
-     *  sit amet, consectetuer adipiscing elit. Aliquam hendrerit
-     *  mi posuere lectus.
-     *  Vestibulum enim wisi, viverra nec, fringilla in, laoreet
-     *  vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
-     *  sit amet velit.
-     *  Suspendisse id sem consectetuer libero luctus adipiscing.
+     * This is a list item with two paragraphs.         Lorem ipsum dolor
+     * sit amet, consectetuer adipiscing elit. Aliquam hendrerit
+     * mi posuere lectus.
+     * Vestibulum enim wisi, viverra nec, fringilla in, laoreet
+     * vitae, risus. Donec sit amet nisl. Aliquam semper ipsum
+     * sit amet velit.
+     * Suspendisse id sem consectetuer libero luctus adipiscing.
      */
-    public static Pattern PARAGRAPH = Pattern.compile("", Pattern.CASE_INSENSITIVE);
+    public static String PARAGRAPH = "";
 
     /**
      * 代码块
@@ -77,7 +104,7 @@ public class MarkdownSyntax {
      * }
      * ```
      */
-    public static Pattern CODE = Pattern.compile("```([\\\\s\\\\S]*?)```", Pattern.CASE_INSENSITIVE);
+    public static String CODE = "";
 
     /**
      * 分割线
@@ -86,35 +113,32 @@ public class MarkdownSyntax {
      * - - -
      * ---
      */
-    public static Pattern LINE = Pattern.compile("", Pattern.CASE_INSENSITIVE);
+    public static String CUTTIN_LINE = "";
 
     /**
      * 链接
      * address@example.com
-     *
      */
-    public static Pattern LINK1 = Pattern.compile("", Pattern.CASE_INSENSITIVE);
+    public static String LINK1 = "";
 
     /**
      * 链接
      * <https://github.com/huangyu0522>
-     *
      */
-    public static Pattern LINK2 = Pattern.compile("", Pattern.CASE_INSENSITIVE);
+    public static String LINK2 = "";
 
     /**
      * 链接
      * [github](https://github.com/huangyu0522)
-     *
      */
-    public static Pattern LINK3 = Pattern.compile("", Pattern.CASE_INSENSITIVE);
+    public static String LINK3 = "";
 
     /**
      * 图片
      * ![alt text](/path/to/img.jpg "Title")
      * ![alt text][id]
      */
-    public static Pattern IMAGE = Pattern.compile("", Pattern.CASE_INSENSITIVE);
+    public static String IMAGE = "";
 
     /**
      * 转义
@@ -131,6 +155,6 @@ public class MarkdownSyntax {
      * \.   英文句点
      * \!   惊叹号
      */
-    public static Pattern ESCAPE = Pattern.compile("", Pattern.CASE_INSENSITIVE);
+    public static String ESCAPE = "";
 
 }
