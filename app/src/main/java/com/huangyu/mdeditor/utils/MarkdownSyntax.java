@@ -37,6 +37,20 @@ public class MarkdownSyntax {
 //    public static String HEAD_LINE = "^ *(#{1,6}) (.*)";
 
     /**
+     * 标题
+     * \n----
+     */
+    public static String HEAD_LINE_UNDER_1 = "^[^-\\n][^\\n]*\\n-+$";
+
+
+    /**
+     * 标题
+     * /n==
+     */
+    public static String HEAD_LINE_UNDER_2 = "^[^=\\n][^\\n]*\\n=+$";
+
+
+    /**
      * 区块引用
      * > This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
      * > consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
@@ -94,7 +108,7 @@ public class MarkdownSyntax {
      * sit amet velit.
      * Suspendisse id sem consectetuer libero luctus adipiscing.
      */
-    public static String PARAGRAPH = "";
+    public static String PARAGRAPH = "((( {4}|\\t).*(\\n|\\z))|(^\\\\s*$\\\\n))+";
 
     /**
      * 代码块
@@ -104,7 +118,7 @@ public class MarkdownSyntax {
      * }
      * ```
      */
-    public static String CODE = "";
+    public static String CODE = "``\\`([\\s\\S]*?)``\\`[\\s]?";
 
     /**
      * 分割线
@@ -113,32 +127,31 @@ public class MarkdownSyntax {
      * - - -
      * ---
      */
-    public static String CUTTIN_LINE = "";
-
-    /**
-     * 链接
-     * address@example.com
-     */
-    public static String LINK1 = "";
-
-    /**
-     * 链接
-     * <https://github.com/huangyu0522>
-     */
-    public static String LINK2 = "";
+    public static String CUTTING_LINE = "^[ \\t]*([*-])[ \\t]*((\\1)[ \\t]*){2,}[ \\t]*$";
 
     /**
      * 链接
      * [github](https://github.com/huangyu0522)
      */
-    public static String LINK3 = "";
+    public static String LINK = "^[ \\t]*\\[[^\\[\\]]*\\]";
+
+    /**
+     * 链接
+     * address@example.com
+     */
+    public static String LINK_EMAIL = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
+
+    /**
+     * 链接
+     * https://github.com/huangyu0522
+     */
+    public static String LINK_WEB = "\\[([^\\[\\]]+)\\](\\(([^\\(\\)]+)\\)|\\[([^\\[\\]]+)\\])";
 
     /**
      * 图片
-     * ![alt text](/path/to/img.jpg "Title")
-     * ![alt text][id]
+     * ![alt text](/path/to/img.jpg)
      */
-    public static String IMAGE = "";
+    public static String IMAGE = "!?\\[([^\\[\\]]+)\\](\\(([^\\(\\)]+)\\)|\\[([^\\[\\]]+)\\])";
 
     /**
      * 转义
