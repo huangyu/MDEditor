@@ -3,7 +3,7 @@ package com.huangyu.mdeditor.utils;
 import java.util.regex.Pattern;
 
 /**
- * Markdown语法
+ * Markdown语法工具类
  * Created by huangyu on 2017-4-17.
  */
 public class MarkdownSyntax {
@@ -17,12 +17,15 @@ public class MarkdownSyntax {
      * @param markdownString
      * @return
      */
-    public static Pattern getPattern(String markdownString, boolean isMultiLine) {
-        if (isMultiLine) {
-            return Pattern.compile(markdownString, Pattern.MULTILINE);
-        }
+    public static Pattern getPattern(String markdownString) {
         return Pattern.compile(markdownString, Pattern.CASE_INSENSITIVE);
     }
+
+    /**
+     * 换行
+     * \n
+     */
+    public static String NEW_LINE = "^\\n+";
 
     /**
      * 标题
@@ -38,14 +41,14 @@ public class MarkdownSyntax {
 
     /**
      * 标题
-     * \n----
+     * ----
      */
     public static String HEAD_LINE_UNDER_1 = "^[^-\\n][^\\n]*\\n-+$";
 
 
     /**
      * 标题
-     * /n==
+     * ====
      */
     public static String HEAD_LINE_UNDER_2 = "^[^=\\n][^\\n]*\\n=+$";
 
@@ -133,7 +136,7 @@ public class MarkdownSyntax {
      * 链接
      * [github](https://github.com/huangyu0522)
      */
-    public static String LINK = "^[ \\t]*\\[[^\\[\\]]*\\]";
+    public static String LINK = "\\[([^\\[\\]]+)\\](\\(([^\\(\\)]+)\\)|\\[([^\\[\\]]+)\\])";
 
     /**
      * 链接
@@ -145,7 +148,7 @@ public class MarkdownSyntax {
      * 链接
      * https://github.com/huangyu0522
      */
-    public static String LINK_WEB = "\\[([^\\[\\]]+)\\](\\(([^\\(\\)]+)\\)|\\[([^\\[\\]]+)\\])";
+    public static String LINK_WEB = "[a-zA-z]+://[^\\s]*";
 
     /**
      * 图片
