@@ -3,22 +3,22 @@ package com.huangyu.mdeditor.bean;
 /**
  * Created by huangyu on 2017-4-24.
  */
-public class MarkdownBean {
+public class HighLightBean {
 
-    private Type type;
+    private HighLightType type;
 
     private Range range;
 
-    public MarkdownBean(Type type, Range range) {
+    public HighLightBean(HighLightType type, Range range) {
         this.type = type;
         this.range = range;
     }
 
-    public Type getType() {
+    public HighLightType getHighLightType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(HighLightType type) {
         this.type = type;
     }
 

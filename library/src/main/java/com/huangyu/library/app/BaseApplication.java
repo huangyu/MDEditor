@@ -20,7 +20,7 @@ public class BaseApplication extends MultiDexApplication {
         super.onCreate();
         mAppContext = this;
 
-        CrashHandler.getInstance().init(this);
+//        CrashHandler.getInstance().init(this);
         LogUtils.init(isApkInDebug(this));
     }
 

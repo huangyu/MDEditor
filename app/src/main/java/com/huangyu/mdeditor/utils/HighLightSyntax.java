@@ -3,12 +3,12 @@ package com.huangyu.mdeditor.utils;
 import java.util.regex.Pattern;
 
 /**
- * Markdown语法工具类
+ * Heightlight工具类
  * Created by huangyu on 2017-4-17.
  */
-public class MarkdownSyntax {
+public class HighLightSyntax {
 
-    private MarkdownSyntax() {
+    private HighLightSyntax() {
     }
 
     /**
@@ -18,14 +18,8 @@ public class MarkdownSyntax {
      * @return
      */
     public static Pattern getPattern(String markdownString) {
-        return Pattern.compile(markdownString, Pattern.CASE_INSENSITIVE);
+        return Pattern.compile(markdownString, Pattern.MULTILINE);
     }
-
-    /**
-     * 换行
-     * \n
-     */
-    public static String NEW_LINE = "^\\n+";
 
     /**
      * 标题
@@ -36,8 +30,12 @@ public class MarkdownSyntax {
      * ##### H5
      * ###### H6
      */
-    public static String HEAD_LINE = "^ *(#{1,6}) *([^\\n]+?) *#* *(?:\\n+|$)";
-//    public static String HEAD_LINE = "^ *(#{1,6}) (.*)";
+    public static String HEAD_LINE_1 = "^ *#{1} +[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_2 = "^ *#{2} +[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_3 = "^ *#{3} +[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_4 = "^ *#{4} +[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_5 = "^ *#{5} +[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_6 = "^ *#{6} +[^#]* *(?:\\n+|$)";
 
     /**
      * 标题
@@ -45,13 +43,11 @@ public class MarkdownSyntax {
      */
     public static String HEAD_LINE_UNDER_1 = "^[^-\\n][^\\n]*\\n-+$";
 
-
     /**
      * 标题
      * ====
      */
     public static String HEAD_LINE_UNDER_2 = "^[^=\\n][^\\n]*\\n=+$";
-
 
     /**
      * 区块引用
@@ -62,8 +58,7 @@ public class MarkdownSyntax {
      * > Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
      * > id sem consectetuer libero luctus adipiscing.
      */
-    public static String BLOCK_QUOTES = "^( *>[^\\n]+(\\n(?!def)[^\\n]+)*\\n*)+";
-//    public static String BLOCK_QUOTES = "\\n(&gt;|>)(.*)";
+    public static String BLOCK_QUOTES = "^( *>[^\\n]+(\\n(?!^ *\\[([^\\]]+)\\]: *<?([^\\s>]+)>?(?: +[\"(]([^\\n]+)[\")])? *(?:\\n+|$))[^\\n]+)*)+";
 
     /**
      * 斜体
@@ -99,7 +94,7 @@ public class MarkdownSyntax {
      * 2. McHale
      * 3. Parish
      */
-    public static String ORDER = "((^\\*)|(^\\+)|(^-))\\s+(.*)";
+    public static String ORDER = "^[0-9]+\\.\\s+(.*)";
 
     /**
      * 段落
@@ -131,12 +126,6 @@ public class MarkdownSyntax {
      * ---
      */
     public static String CUTTING_LINE = "^[ \\t]*([*-])[ \\t]*((\\1)[ \\t]*){2,}[ \\t]*$";
-
-    /**
-     * 链接
-     * [github](https://github.com/huangyu0522)
-     */
-    public static String LINK = "\\[([^\\[\\]]+)\\](\\(([^\\(\\)]+)\\)|\\[([^\\[\\]]+)\\])";
 
     /**
      * 链接
