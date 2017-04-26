@@ -3,11 +3,13 @@ package com.huangyu.mdeditor.ui.fragment;
 import android.os.Bundle;
 
 import com.huangyu.library.mvp.IBaseView;
+import com.huangyu.library.rx.RxManager;
 import com.huangyu.library.ui.BaseFragment;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.ui.widget.MarkdownPreviewView;
 
 import butterknife.Bind;
+import rx.functions.Action1;
 
 /**
  * Created by huangyu on 2017-4-25.
@@ -29,7 +31,12 @@ public class MarkdownPreviewFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        RxManager.getInstance().on("refresh", new Action1<String>() {
+            @Override
+            public void call(String s) {
+                refresh(s);
+            }
+        });
     }
 
     public void refresh(String content) {

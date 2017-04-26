@@ -56,7 +56,6 @@ public class MarkdownPreviewView extends NestedScrollView {
     private void init(Context context) {
         if (!isInEditMode()) {
             this.mContext = context;
-//            setOrientation(VERTICAL);
             if (VERSION.SDK_INT >= 21) {
                 WebView.enableSlowWholeDocumentDraw();
             }
@@ -122,8 +121,9 @@ public class MarkdownPreviewView extends NestedScrollView {
         }
 
         public final boolean shouldOverrideUrlLoading(WebView webView, String url) {
-//            if (!TextUtils.isEmpty(url))
+//            if (!TextUtils.isEmpty(url)) {
 //                BaseWebActivity.loadUrl(webView.getContext(), url, null);
+//            }
             return true;
         }
     }

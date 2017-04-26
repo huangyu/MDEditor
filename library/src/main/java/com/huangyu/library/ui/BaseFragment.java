@@ -10,6 +10,9 @@ import android.view.ViewGroup;
 
 import com.huangyu.library.mvp.BasePresenter;
 import com.huangyu.library.mvp.IBaseView;
+import com.huangyu.library.rx.RxManager;
+
+import butterknife.ButterKnife;
 
 import static com.huangyu.library.util.GenericUtils.getT;
 
@@ -27,6 +30,7 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
         if (mRootView == null) {
             mRootView = inflater.inflate(getLayoutId(), container, false);
         }
+        ButterKnife.bind(this, mRootView);
 
         // 因为共用一个Fragment视图，所以当前这个视图已被加载到Activity中，必须先清除后再加入Activity
         ViewGroup parent = (ViewGroup) mRootView.getParent();
@@ -43,6 +47,21 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
         }
         initView(savedInstanceState);
         return mRootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (mPresenter != null) {
+            mPresenter.destroy();
+        }
+        RxManager.getInstance().clear();
+        super.onDestroy();
     }
 
     /**

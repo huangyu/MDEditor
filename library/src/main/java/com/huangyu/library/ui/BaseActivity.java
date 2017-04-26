@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.huangyu.library.app.ActivityManager;
 import com.huangyu.library.mvp.BasePresenter;
 import com.huangyu.library.mvp.IBaseView;
+import com.huangyu.library.rx.RxManager;
 
 import butterknife.ButterKnife;
 
@@ -45,6 +46,8 @@ public abstract class BaseActivity<V extends IBaseView, P extends BasePresenter<
         if (mPresenter != null) {
             mPresenter.destroy();
         }
+        RxManager.getInstance().clear();
+        ButterKnife.unbind(this);
         ActivityManager.getInstance().removeActivity(this);
         super.onDestroy();
     }

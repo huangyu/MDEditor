@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 
+import com.huangyu.library.rx.RxManager;
 import com.huangyu.library.ui.BaseActivity;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.mvp.contract.IMainContract;
@@ -18,9 +19,6 @@ public class MainActivity extends BaseActivity<IMainContract.IMainView, IMainCon
 
     @Bind(R.id.pager)
     protected ViewPager mViewPager;
-
-    private MarkdownEditorFragment mEditorFragment = new MarkdownEditorFragment();
-    private MarkdownPreviewFragment mPreviewFragment = new MarkdownPreviewFragment();
 
     @Override
     protected int getLayoutId() {
@@ -38,15 +36,14 @@ public class MainActivity extends BaseActivity<IMainContract.IMainView, IMainCon
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //刷新渲染数据
-                if (position == 1) {
-                    mPreviewFragment.refresh(mEditorFragment.getContent());
-                }
+
             }
 
             @Override
             public void onPageSelected(int position) {
-
+                if (position == 1) {
+                    RxManager.getInstance().post("getContent", "");
+                }
             }
 
             @Override
@@ -59,8 +56,13 @@ public class MainActivity extends BaseActivity<IMainContract.IMainView, IMainCon
 
     private class EditFragmentAdapter extends FragmentPagerAdapter {
 
+        private MarkdownEditorFragment mEditorFragment;
+        private MarkdownPreviewFragment mPreviewFragment;
+
         public EditFragmentAdapter(FragmentManager fm) {
             super(fm);
+            mEditorFragment = new MarkdownEditorFragment();
+            mPreviewFragment = new MarkdownPreviewFragment();
         }
 
         @Override
