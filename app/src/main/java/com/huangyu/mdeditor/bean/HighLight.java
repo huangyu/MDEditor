@@ -3,13 +3,13 @@ package com.huangyu.mdeditor.bean;
 /**
  * Created by huangyu on 2017-4-24.
  */
-public class HighLightBean {
+public class HighLight {
 
     private HighLightType type;
 
     private Range range;
 
-    public HighLightBean(HighLightType type, Range range) {
+    public HighLight(HighLightType type, Range range) {
         this.type = type;
         this.range = range;
     }

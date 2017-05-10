@@ -5,9 +5,23 @@ package com.huangyu.mdeditor.bean;
  */
 public class Article {
 
+    private String name;
+
     private String title;
 
     private String content;
+
+    private String size;
+
+    private String modifyTime;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public String getTitle() {
         return title;
@@ -23,6 +37,22 @@ public class Article {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getSize() {
+        return size;
+    }
+
+    public void setSize(String size) {
+        this.size = size;
+    }
+
+    public String getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(String modifyTime) {
+        this.modifyTime = modifyTime;
     }
 
 }

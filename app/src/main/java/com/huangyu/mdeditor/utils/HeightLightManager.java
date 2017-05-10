@@ -10,7 +10,7 @@ import android.text.style.TypefaceSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
-import com.huangyu.mdeditor.bean.HighLightBean;
+import com.huangyu.mdeditor.bean.HighLight;
 import com.huangyu.mdeditor.bean.HighLightType;
 import com.huangyu.mdeditor.bean.Range;
 
@@ -33,8 +33,8 @@ public class HeightLightManager {
      * @param text
      * @return
      */
-    public static List<HighLightBean> normalizeString(String text) {
-        List<HighLightBean> models = new ArrayList<>();
+    public static List<HighLight> normalizeString(String text) {
+        List<HighLight> models = new ArrayList<>();
         for (HighLightType type : HighLightType.values()) {
             Pattern pattern = getMarkdownPattern(type);
             if (pattern == null) {
@@ -44,7 +44,7 @@ public class HeightLightManager {
             while (matcher.find()) {
                 int start = matcher.start();
                 int end = matcher.end();
-                HighLightBean model = new HighLightBean(type, new Range(start, end));
+                HighLight model = new HighLight(type, new Range(start, end));
                 models.add(model);
             }
         }

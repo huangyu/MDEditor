@@ -7,7 +7,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.EditText;
 
-import com.huangyu.mdeditor.bean.HighLightBean;
+import com.huangyu.mdeditor.bean.HighLight;
 import com.huangyu.mdeditor.bean.HighLightType;
 import com.huangyu.mdeditor.bean.Range;
 import com.huangyu.mdeditor.utils.HeightLightManager;
@@ -62,19 +62,19 @@ public class HighLightEditText extends EditText {
             for (Object style : mLastStyleList) {
                 editable.removeSpan(style);
             }
-            List<HighLightBean> models = HeightLightManager.normalizeString(editable.toString());
+            List<HighLight> models = HeightLightManager.normalizeString(editable.toString());
             if (models.size() == 0) {
                 return;
             }
 
             mLastStyleList.clear();
 
-            for (HighLightBean model : models) {
+            for (HighLight model : models) {
                 setSpan(model, editable);
             }
         }
 
-        private void setSpan(HighLightBean model, Editable editable) {
+        private void setSpan(HighLight model, Editable editable) {
             HighLightType type = model.getHighLightType();
             Range range = model.getRange();
             int start = range.getStart();

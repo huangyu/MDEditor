@@ -1,24 +1,34 @@
 package com.huangyu.mdeditor.ui.activity;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
-import com.huangyu.library.rx.RxManager;
 import com.huangyu.library.ui.BaseActivity;
 import com.huangyu.mdeditor.R;
+import com.huangyu.mdeditor.bean.Mode;
 import com.huangyu.mdeditor.mvp.contract.IMainContract;
-import com.huangyu.mdeditor.ui.fragment.MarkdownEditorFragment;
-import com.huangyu.mdeditor.ui.fragment.MarkdownPreviewFragment;
+import com.huangyu.mdeditor.mvp.presenter.MainPresenter;
+import com.huangyu.mdeditor.ui.adapter.ArticleFileAdapter;
 
 import butterknife.Bind;
 
-public class MainActivity extends BaseActivity<IMainContract.IMainView, IMainContract.AMainPresenter> implements IMainContract.IMainView {
+/**
+ * Created by huangyu on 2017-5-10.
+ */
+public class MainActivity extends BaseActivity<IMainContract.IMainView, MainPresenter> implements IMainContract.IMainView {
 
-    @Bind(R.id.pager)
-    protected ViewPager mViewPager;
+    @Bind(R.id.toolbar)
+    Toolbar mTb;
+
+    @Bind(R.id.fab)
+    FloatingActionButton mFab;
+
+    @Bind(R.id.recyclerview)
+    RecyclerView mRvArticle;
 
     @Override
     protected int getLayoutId() {
@@ -32,51 +42,20 @@ public class MainActivity extends BaseActivity<IMainContract.IMainView, IMainCon
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        mViewPager.setAdapter(new EditFragmentAdapter(getSupportFragmentManager()));
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        setSupportActionBar(mTb);
+
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == 1) {
-                    RxManager.getInstance().post("getContent", "");
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putString("mode", Mode.MODE_EDIT);
+                startActivity(EditActivity.class, bundle);
             }
         });
 
-    }
-
-    private class EditFragmentAdapter extends FragmentPagerAdapter {
-
-        private MarkdownEditorFragment mEditorFragment;
-        private MarkdownPreviewFragment mPreviewFragment;
-
-        public EditFragmentAdapter(FragmentManager fm) {
-            super(fm);
-            mEditorFragment = new MarkdownEditorFragment();
-            mPreviewFragment = new MarkdownPreviewFragment();
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            if (position == 0) {
-                return mEditorFragment;
-            }
-            return mPreviewFragment;
-        }
-
-        @Override
-        public int getCount() {
-            return 2;
-        }
+        ArticleFileAdapter adapter = new ArticleFileAdapter(this);
+        mRvArticle.setLayoutManager(new LinearLayoutManager(this));
+        mRvArticle.setAdapter(adapter);
     }
 
 }
