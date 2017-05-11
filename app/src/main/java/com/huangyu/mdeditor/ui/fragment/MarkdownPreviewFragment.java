@@ -29,6 +29,12 @@ public class MarkdownPreviewFragment extends BaseFragment {
         return null;
     }
 
+    public static MarkdownPreviewFragment getInstance(Bundle bundle) {
+        MarkdownPreviewFragment markdownPreviewFragment = new MarkdownPreviewFragment();
+        markdownPreviewFragment.setArguments(bundle);
+        return markdownPreviewFragment;
+    }
+
     @Override
     protected void initView(Bundle savedInstanceState) {
         RxManager.getInstance().on("refresh", new Action1<String>() {

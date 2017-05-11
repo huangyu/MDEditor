@@ -1,9 +1,13 @@
 package com.huangyu.mdeditor.bean;
 
+import java.io.Serializable;
+
+import io.realm.RealmObject;
+
 /**
  * Created by huangyu on 2017-4-24.
  */
-public class Article {
+public class Article extends RealmObject implements Serializable {
 
     private String name;
 

@@ -8,7 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.huangyu.library.ui.BaseActivity;
+import com.huangyu.library.ui.CommonRecyclerViewAdapter;
 import com.huangyu.mdeditor.R;
+import com.huangyu.mdeditor.bean.Article;
 import com.huangyu.mdeditor.bean.Mode;
 import com.huangyu.mdeditor.mvp.contract.IMainContract;
 import com.huangyu.mdeditor.mvp.presenter.MainPresenter;
@@ -53,8 +55,18 @@ public class MainActivity extends BaseActivity<IMainContract.IMainView, MainPres
             }
         });
 
-        ArticleFileAdapter adapter = new ArticleFileAdapter(this);
+        final ArticleFileAdapter adapter = new ArticleFileAdapter(this);
         mRvArticle.setLayoutManager(new LinearLayoutManager(this));
+        adapter.setOnItemClick(new CommonRecyclerViewAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Article article = adapter.getItem(position);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("article", article);
+                bundle.putString("mode", Mode.MODE_PREVIEW);
+                startActivity(EditActivity.class, bundle);
+            }
+        });
         mRvArticle.setAdapter(adapter);
     }
 

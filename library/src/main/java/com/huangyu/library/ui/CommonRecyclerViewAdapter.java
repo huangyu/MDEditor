@@ -100,6 +100,13 @@ public abstract class CommonRecyclerViewAdapter<T> extends RecyclerView.Adapter<
 
     public abstract int getLayoutResource();
 
+    public T getItem(int position) {
+        if (position < 0 || position >= mDataList.size()) {
+            return null;
+        }
+        return (mDataList == null || mDataList.isEmpty()) ? null : mDataList.get(position);
+    }
+
     @Override
     public int getItemCount() {
         return mDataList == null ? 0 : mDataList.size();
