@@ -50,15 +50,19 @@ public class MarkdownEditorFragment extends BaseFragment {
             mEtContent.setText(article.getContent());
         }
 
-        RxManager.getInstance().on("getTitle", new Action1<String>() {
+        initRxCallback();
+    }
+
+    private void initRxCallback() {
+        RxManager.getInstance().on("getTitle", new Action1<Object>() {
             @Override
-            public void call(String s) {
+            public void call(Object s) {
                 RxManager.getInstance().post("refreshTitle", mEtTitle.getText().toString());
             }
         });
-        RxManager.getInstance().on("getContent", new Action1<String>() {
+        RxManager.getInstance().on("getContent", new Action1<Object>() {
             @Override
-            public void call(String s) {
+            public void call(Object s) {
                 RxManager.getInstance().post("refreshContent", mEtContent.getText().toString());
             }
         });

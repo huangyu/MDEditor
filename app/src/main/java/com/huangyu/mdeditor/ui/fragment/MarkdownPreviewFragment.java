@@ -41,6 +41,10 @@ public class MarkdownPreviewFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        initRxCallback();
+    }
+
+    private void initRxCallback() {
         RxManager.getInstance().on("refreshTitle", new Action1<String>() {
             @Override
             public void call(String s) {

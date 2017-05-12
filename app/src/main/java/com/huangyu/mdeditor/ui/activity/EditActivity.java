@@ -9,6 +9,7 @@ import android.text.TextUtils;
 
 import com.huangyu.library.rx.RxManager;
 import com.huangyu.mdeditor.R;
+import com.huangyu.mdeditor.bean.Article;
 import com.huangyu.mdeditor.bean.Mode;
 import com.huangyu.mdeditor.mvp.contract.IEditContract;
 import com.huangyu.mdeditor.ui.fragment.MarkdownEditorFragment;
@@ -65,8 +66,8 @@ public class EditActivity extends BaseToolbarActivity<IEditContract.IEditView, I
             @Override
             public void onPageSelected(int position) {
                 if (position == 1) {
-                    RxManager.getInstance().post("getTitle", "");
-                    RxManager.getInstance().post("getContent", "");
+                    RxManager.getInstance().post("getTitle", null);
+                    RxManager.getInstance().post("getContent", null);
                 }
             }
 
@@ -84,7 +85,13 @@ public class EditActivity extends BaseToolbarActivity<IEditContract.IEditView, I
 
     @Override
     protected String getToolbarTitle() {
-        return "Edit";
+        Bundle bundle = getIntent().getExtras();
+        Article article = (Article) bundle.getSerializable("article");
+        if (article == null) {
+            return "Edit";
+        } else {
+            return article.getName();
+        }
     }
 
     private class EditFragmentAdapter extends FragmentPagerAdapter {
