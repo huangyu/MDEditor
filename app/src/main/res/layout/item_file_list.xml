@@ -13,7 +13,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
         android:contentDescription="@string/image"
-        android:src="@mipmap/ic_file" />
+        android:src="@drawable/ic_file" />
 
     <RelativeLayout
         android:layout_width="match_parent"

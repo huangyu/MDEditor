@@ -4,12 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.huangyu.mdeditor.ui.widget.HighLightEditText
-        android:id="@+id/et_highlight"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:gravity="top"
-        android:inputType="textMultiLine|textLongMessage" />
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.huangyu.mdeditor.ui.widget.HighLightEditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:gravity="top"
+            android:inputType="textMultiLine|textLongMessage" />
+    </RelativeLayout>
 
 </android.support.v4.widget.NestedScrollView>
