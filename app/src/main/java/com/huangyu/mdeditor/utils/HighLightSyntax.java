@@ -30,12 +30,12 @@ public class HighLightSyntax {
      * ##### H5
      * ###### H6
      */
-    public static String HEAD_LINE_1 = "^ *#{1} +[^#]* *(?:\\n+|$)";
-    public static String HEAD_LINE_2 = "^ *#{2} +[^#]* *(?:\\n+|$)";
-    public static String HEAD_LINE_3 = "^ *#{3} +[^#]* *(?:\\n+|$)";
-    public static String HEAD_LINE_4 = "^ *#{4} +[^#]* *(?:\\n+|$)";
-    public static String HEAD_LINE_5 = "^ *#{5} +[^#]* *(?:\\n+|$)";
-    public static String HEAD_LINE_6 = "^ *#{6} +[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_1 = "^ *#{1} *[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_2 = "^ *#{2} *[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_3 = "^ *#{3} *[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_4 = "^ *#{4} *[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_5 = "^ *#{5} *[^#]* *(?:\\n+|$)";
+    public static String HEAD_LINE_6 = "^ *#{6} *[^#]* *(?:\\n+|$)";
 
     /**
      * 标题
