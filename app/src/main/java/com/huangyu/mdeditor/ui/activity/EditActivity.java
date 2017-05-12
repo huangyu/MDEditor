@@ -7,17 +7,17 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 
+import com.huangyu.library.mvp.IBaseView;
 import com.huangyu.library.rx.RxManager;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Article;
 import com.huangyu.mdeditor.bean.Mode;
-import com.huangyu.mdeditor.mvp.contract.IEditContract;
 import com.huangyu.mdeditor.ui.fragment.MarkdownEditorFragment;
 import com.huangyu.mdeditor.ui.fragment.MarkdownPreviewFragment;
 
 import butterknife.Bind;
 
-public class EditActivity extends BaseToolbarActivity<IEditContract.IEditView, IEditContract.AEditPresenter> implements IEditContract.IEditView {
+public class EditActivity extends BaseToolbarActivity {
 
     @Bind(R.id.pager)
     ViewPager mViewPager;
@@ -31,8 +31,8 @@ public class EditActivity extends BaseToolbarActivity<IEditContract.IEditView, I
     }
 
     @Override
-    protected IEditContract.IEditView initAttachView() {
-        return this;
+    protected IBaseView initAttachView() {
+        return null;
     }
 
     @Override

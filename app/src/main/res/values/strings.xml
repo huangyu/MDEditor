@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">MDEditor</string>
+
     <string name="str_image">image</string>
     <string name="str_title">Title</string>
     <string name="str_content">Content</string>
+
+    <string name="opt_undo">Undo</string>
+    <string name="act_redo">Redo</string>
+    <string name="act_save">Save</string>
+    <string name="act_share">Share</string>
 </resources>
