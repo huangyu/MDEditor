@@ -1,11 +1,11 @@
 package com.huangyu.mdeditor.ui.widget;
 
 import android.content.Context;
+import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
 import com.huangyu.mdeditor.bean.HighLight;
 import com.huangyu.mdeditor.bean.HighLightType;
@@ -18,9 +18,7 @@ import java.util.List;
 /**
  * Created by huangyu on 2017-4-24.
  */
-public class HighLightEditText extends EditText {
-
-    private HighLightChangeWatcher mTextWatcher;
+public class HighLightEditText extends AppCompatEditText {
 
     public HighLightEditText(Context context) {
         super(context);
@@ -39,8 +37,7 @@ public class HighLightEditText extends EditText {
 
     private void init() {
 //        setMovementMethod(LinkMovementMethod.getInstance());
-        mTextWatcher = new HighLightChangeWatcher();
-        this.addTextChangedListener(mTextWatcher);
+        this.addTextChangedListener(new HighLightChangeWatcher());
     }
 
     private class HighLightChangeWatcher implements TextWatcher {

@@ -8,7 +8,6 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 
 import com.huangyu.library.rx.RxManager;
-import com.huangyu.library.ui.BaseActivity;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Mode;
 import com.huangyu.mdeditor.mvp.contract.IEditContract;
@@ -17,7 +16,7 @@ import com.huangyu.mdeditor.ui.fragment.MarkdownPreviewFragment;
 
 import butterknife.Bind;
 
-public class EditActivity extends BaseActivity<IEditContract.IEditView, IEditContract.AEditPresenter> implements IEditContract.IEditView {
+public class EditActivity extends BaseToolbarActivity<IEditContract.IEditView, IEditContract.AEditPresenter> implements IEditContract.IEditView {
 
     @Bind(R.id.pager)
     ViewPager mViewPager;
@@ -37,7 +36,7 @@ public class EditActivity extends BaseActivity<IEditContract.IEditView, IEditCon
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-
+        super.initView(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
         String mode = bundle.getString("mode");
         if (!TextUtils.isEmpty(mode)) {
@@ -66,6 +65,7 @@ public class EditActivity extends BaseActivity<IEditContract.IEditView, IEditCon
             @Override
             public void onPageSelected(int position) {
                 if (position == 1) {
+                    RxManager.getInstance().post("getTitle", "");
                     RxManager.getInstance().post("getContent", "");
                 }
             }
@@ -75,12 +75,21 @@ public class EditActivity extends BaseActivity<IEditContract.IEditView, IEditCon
 
             }
         });
-
     }
 
-    public class EditFragmentAdapter extends FragmentPagerAdapter {
+    @Override
+    protected boolean hasBackButton() {
+        return true;
+    }
 
-        public EditFragmentAdapter(FragmentManager fm) {
+    @Override
+    protected String getToolbarTitle() {
+        return "Edit";
+    }
+
+    private class EditFragmentAdapter extends FragmentPagerAdapter {
+
+        private EditFragmentAdapter(FragmentManager fm) {
             super(fm);
         }
 

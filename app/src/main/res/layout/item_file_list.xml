@@ -12,7 +12,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="16dp"
         android:layout_marginStart="16dp"
-        android:contentDescription="@string/image"
+        android:contentDescription="@string/str_image"
         android:src="@drawable/ic_file" />
 
     <RelativeLayout

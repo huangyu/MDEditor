@@ -1,6 +1,7 @@
 package com.huangyu.mdeditor.ui.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatTextView;
 
 import com.huangyu.library.mvp.IBaseView;
 import com.huangyu.library.rx.RxManager;
@@ -16,8 +17,11 @@ import rx.functions.Action1;
  */
 public class MarkdownPreviewFragment extends BaseFragment {
 
-    @Bind(R.id.markdown_preview)
-    protected MarkdownPreviewView mMarkdownPreviewView;
+    @Bind(R.id.tv_title)
+    AppCompatTextView tvTitle;
+
+    @Bind(R.id.pv_content)
+    MarkdownPreviewView mMarkdownPreviewView;
 
     @Override
     protected int getLayoutId() {
@@ -37,15 +41,25 @@ public class MarkdownPreviewFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        RxManager.getInstance().on("refresh", new Action1<String>() {
+        RxManager.getInstance().on("refreshTitle", new Action1<String>() {
             @Override
             public void call(String s) {
-                refresh(s);
+                refreshTitle(s);
+            }
+        });
+        RxManager.getInstance().on("refreshContent", new Action1<String>() {
+            @Override
+            public void call(String s) {
+                refreshContent(s);
             }
         });
     }
 
-    public void refresh(String content) {
+    public void refreshTitle(String title) {
+        tvTitle.setText(title);
+    }
+
+    public void refreshContent(String content) {
         mMarkdownPreviewView.parseMarkdown(content, true);
     }
 

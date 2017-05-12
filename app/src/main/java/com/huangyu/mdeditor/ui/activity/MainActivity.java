@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
-import com.huangyu.library.ui.BaseActivity;
 import com.huangyu.library.ui.CommonRecyclerViewAdapter;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Article;
@@ -21,16 +20,15 @@ import butterknife.Bind;
 /**
  * Created by huangyu on 2017-5-10.
  */
-public class MainActivity extends BaseActivity<IMainContract.IMainView, MainPresenter> implements IMainContract.IMainView {
-
-    @Bind(R.id.toolbar)
-    Toolbar mTb;
+public class MainActivity extends BaseToolbarActivity<IMainContract.IMainView, MainPresenter> implements IMainContract.IMainView {
 
     @Bind(R.id.fab)
     FloatingActionButton mFab;
 
-    @Bind(R.id.recyclerview)
+    @Bind(R.id.recycler_view)
     RecyclerView mRvArticle;
+
+    private long currentTime;
 
     @Override
     protected int getLayoutId() {
@@ -44,8 +42,7 @@ public class MainActivity extends BaseActivity<IMainContract.IMainView, MainPres
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        setSupportActionBar(mTb);
-
+        super.initView(savedInstanceState);
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,6 +65,30 @@ public class MainActivity extends BaseActivity<IMainContract.IMainView, MainPres
             }
         });
         mRvArticle.setAdapter(adapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isDoubleCheck()) {
+            finish();
+        } else {
+            currentTime = System.currentTimeMillis();
+            Toast.makeText(this, "再按一次退出软件", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private boolean isDoubleCheck() {
+        return Math.abs(currentTime - System.currentTimeMillis()) < 2000;
+    }
+
+    @Override
+    protected boolean hasBackButton() {
+        return false;
+    }
+
+    @Override
+    protected String getToolbarTitle() {
+        return "MDEditor";
     }
 
 }
