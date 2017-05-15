@@ -59,7 +59,6 @@ public class EditActivity extends BaseToolbarActivity {
         mEditorFragment = MarkdownEditorFragment.getInstance(bundle);
         mPreviewFragment = MarkdownPreviewFragment.getInstance(bundle);
 
-        mViewPager.setOffscreenPageLimit(2);
         mViewPager.setAdapter(new EditFragmentAdapter(getSupportFragmentManager()));
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

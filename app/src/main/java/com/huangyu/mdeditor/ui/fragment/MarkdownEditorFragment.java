@@ -96,15 +96,15 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
     }
 
     private void initRxCallback() {
-        RxManager.getInstance().on("getTitle", new Action1<Object>() {
+        RxManager.getInstance().on("getTitle", new Action1<String>() {
             @Override
-            public void call(Object s) {
+            public void call(String s) {
                 RxManager.getInstance().post("refreshTitle", mEtTitle.getText().toString());
             }
         });
-        RxManager.getInstance().on("getContent", new Action1<Object>() {
+        RxManager.getInstance().on("getContent", new Action1<String>() {
             @Override
-            public void call(Object s) {
+            public void call(String s) {
                 RxManager.getInstance().post("refreshContent", mEtContent.getText().toString());
             }
         });

@@ -45,8 +45,13 @@ public abstract class BaseFragment<V extends IBaseView, P extends BasePresenter<
             mPresenter.attachView(view);
             mPresenter.create();
         }
-        initView(savedInstanceState);
         return mRootView;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initView(savedInstanceState);
     }
 
     @Override
