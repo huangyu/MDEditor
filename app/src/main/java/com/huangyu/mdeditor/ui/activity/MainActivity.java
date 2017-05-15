@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -11,22 +13,25 @@ import com.huangyu.library.ui.CommonRecyclerViewAdapter;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Article;
 import com.huangyu.mdeditor.bean.Mode;
-import com.huangyu.mdeditor.mvp.contract.IMainContract;
 import com.huangyu.mdeditor.mvp.presenter.MainPresenter;
-import com.huangyu.mdeditor.ui.adapter.ArticleFileAdapter;
+import com.huangyu.mdeditor.mvp.view.IMainView;
+import com.huangyu.mdeditor.ui.adapter.ArticleAdapter;
+import com.huangyu.mdeditor.utils.SysUtils;
 
 import butterknife.Bind;
 
 /**
  * Created by huangyu on 2017-5-10.
  */
-public class MainActivity extends BaseToolbarActivity<IMainContract.IMainView, MainPresenter> implements IMainContract.IMainView {
+public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> implements IMainView {
 
     @Bind(R.id.fab)
     FloatingActionButton mFab;
 
     @Bind(R.id.recycler_view)
     RecyclerView mRvArticle;
+
+    private ArticleAdapter adapter;
 
     private long currentTime;
 
@@ -36,7 +41,7 @@ public class MainActivity extends BaseToolbarActivity<IMainContract.IMainView, M
     }
 
     @Override
-    protected IMainContract.IMainView initAttachView() {
+    protected IMainView initAttachView() {
         return this;
     }
 
@@ -52,8 +57,7 @@ public class MainActivity extends BaseToolbarActivity<IMainContract.IMainView, M
             }
         });
 
-        final ArticleFileAdapter adapter = new ArticleFileAdapter(this);
-        mRvArticle.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new ArticleAdapter(this);
         adapter.setOnItemClick(new CommonRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -64,7 +68,38 @@ public class MainActivity extends BaseToolbarActivity<IMainContract.IMainView, M
                 startActivity(EditActivity.class, bundle);
             }
         });
+        adapter.setOnItemLongClick(new CommonRecyclerViewAdapter.OnItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, int position) {
+                Article article = adapter.getItem(position);
+                mPresenter.deleteArticle(article.getId(), position);
+            }
+        });
+        mRvArticle.setLayoutManager(new LinearLayoutManager(this));
         mRvArticle.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        adapter.clearData();
+        adapter.setData(mPresenter.queryAllArticles());
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_search:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -91,4 +126,14 @@ public class MainActivity extends BaseToolbarActivity<IMainContract.IMainView, M
         return "MDEditor";
     }
 
+    @Override
+    public void showToast(String content) {
+        SysUtils.showToast(this, content);
+    }
+
+    @Override
+    public void adapterRemove(int position) {
+        adapter.removeItem(position);
+        adapter.notifyItemRemoved(position);
+    }
 }

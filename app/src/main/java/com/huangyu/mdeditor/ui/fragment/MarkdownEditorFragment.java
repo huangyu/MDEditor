@@ -1,6 +1,7 @@
 package com.huangyu.mdeditor.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,8 +11,10 @@ import com.huangyu.library.rx.RxManager;
 import com.huangyu.library.ui.BaseFragment;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Article;
-import com.huangyu.mdeditor.mvp.contract.IEditContract;
+import com.huangyu.mdeditor.mvp.presenter.EditPresenter;
+import com.huangyu.mdeditor.mvp.view.IEditView;
 import com.huangyu.mdeditor.ui.widget.HighLightEditText;
+import com.huangyu.mdeditor.utils.SysUtils;
 
 import butterknife.Bind;
 import rx.functions.Action1;
@@ -19,7 +22,7 @@ import rx.functions.Action1;
 /**
  * Created by huangyu on 2017-4-25.
  */
-public class MarkdownEditorFragment extends BaseFragment<IEditContract.IEditView, IEditContract.AEditPresenter>  implements IEditContract.IEditView  {
+public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresenter> implements IEditView {
 
     @Bind(R.id.et_title)
     AppCompatEditText mEtTitle;
@@ -27,13 +30,15 @@ public class MarkdownEditorFragment extends BaseFragment<IEditContract.IEditView
     @Bind(R.id.et_content)
     HighLightEditText mEtContent;
 
+    private Article article;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_editor;
     }
 
     @Override
-    protected IEditContract.IEditView initAttachView() {
+    protected IEditView initAttachView() {
         return this;
     }
 
@@ -46,7 +51,7 @@ public class MarkdownEditorFragment extends BaseFragment<IEditContract.IEditView
     @Override
     protected void initView(Bundle savedInstanceState) {
         Bundle bundle = getArguments();
-        Article article = (Article) bundle.getSerializable("article");
+        article = (Article) bundle.getSerializable("article");
 
         if (article != null) {
             mEtTitle.setText(article.getTitle());
@@ -54,6 +59,12 @@ public class MarkdownEditorFragment extends BaseFragment<IEditContract.IEditView
         }
 
         initRxCallback();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -72,15 +83,16 @@ public class MarkdownEditorFragment extends BaseFragment<IEditContract.IEditView
             case R.id.action_save:
                 save();
                 return true;
-            case R.id.action_share:
-                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     private void save() {
-
+        if (article == null) {
+            mPresenter.save(null, mEtTitle.getText().toString(), mEtContent.getText().toString());
+        } else {
+            mPresenter.save(article.getId(), mEtTitle.getText().toString(), mEtContent.getText().toString());
+        }
     }
 
     private void initRxCallback() {
@@ -96,6 +108,11 @@ public class MarkdownEditorFragment extends BaseFragment<IEditContract.IEditView
                 RxManager.getInstance().post("refreshContent", mEtContent.getText().toString());
             }
         });
+    }
+
+    @Override
+    public void showToast(String content) {
+        SysUtils.showToast(getContext(), content);
     }
 
 }

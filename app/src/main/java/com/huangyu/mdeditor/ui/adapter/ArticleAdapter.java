@@ -7,25 +7,26 @@ import com.huangyu.library.ui.CommonRecyclerViewAdapter;
 import com.huangyu.library.ui.CommonRecyclerViewHolder;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Article;
+import com.huangyu.mdeditor.utils.SysUtils;
 
 /**
  * Created by huangyu on 2017-5-10.
  */
-public class ArticleFileAdapter extends CommonRecyclerViewAdapter<Article> {
+public class ArticleAdapter extends CommonRecyclerViewAdapter<Article> {
 
-    public ArticleFileAdapter(Context context) {
+    public ArticleAdapter(Context context) {
         super(context);
     }
 
     @Override
     public void convert(CommonRecyclerViewHolder holder, Article data, int position) {
-        TextView tvName = holder.getView(R.id.tv_name);
-        TextView tvSize = holder.getView(R.id.tv_size);
+        TextView tvName = holder.getView(R.id.tv_title);
+        TextView tvSize = holder.getView(R.id.tv_content);
         TextView tvTime = holder.getView(R.id.tv_time);
 
-        tvName.setText(data.getName());
-        tvSize.setText(data.getSize());
-        tvTime.setText(data.getModifyTime());
+        tvName.setText(data.getTitle());
+        tvSize.setText(data.getContent());
+        tvTime.setText(SysUtils.getFormatDate(SysUtils.stringToDate(data.getModifyTime())));
     }
 
     @Override

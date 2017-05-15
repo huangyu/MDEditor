@@ -6,17 +6,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.MenuItem;
 
 import com.huangyu.library.mvp.IBaseView;
 import com.huangyu.library.rx.RxManager;
 import com.huangyu.mdeditor.R;
-import com.huangyu.mdeditor.bean.Article;
 import com.huangyu.mdeditor.bean.Mode;
 import com.huangyu.mdeditor.ui.fragment.MarkdownEditorFragment;
 import com.huangyu.mdeditor.ui.fragment.MarkdownPreviewFragment;
 
 import butterknife.Bind;
 
+/**
+ * Created by huangyu on 2017/5/12.
+ */
 public class EditActivity extends BaseToolbarActivity {
 
     @Bind(R.id.pager)
@@ -56,6 +59,7 @@ public class EditActivity extends BaseToolbarActivity {
         mEditorFragment = MarkdownEditorFragment.getInstance(bundle);
         mPreviewFragment = MarkdownPreviewFragment.getInstance(bundle);
 
+        mViewPager.setOffscreenPageLimit(2);
         mViewPager.setAdapter(new EditFragmentAdapter(getSupportFragmentManager()));
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -66,8 +70,8 @@ public class EditActivity extends BaseToolbarActivity {
             @Override
             public void onPageSelected(int position) {
                 if (position == 1) {
-                    RxManager.getInstance().post("getTitle", null);
-                    RxManager.getInstance().post("getContent", null);
+                    RxManager.getInstance().post("getTitle", "");
+                    RxManager.getInstance().post("getContent", "");
                 }
             }
 
@@ -84,14 +88,18 @@ public class EditActivity extends BaseToolbarActivity {
     }
 
     @Override
-    protected String getToolbarTitle() {
-        Bundle bundle = getIntent().getExtras();
-        Article article = (Article) bundle.getSerializable("article");
-        if (article == null) {
-            return "Edit";
-        } else {
-            return article.getName();
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected String getToolbarTitle() {
+        return "MDEditor";
     }
 
     private class EditFragmentAdapter extends FragmentPagerAdapter {

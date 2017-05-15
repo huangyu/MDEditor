@@ -1,7 +1,11 @@
 package com.huangyu.mdeditor.ui.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.huangyu.library.mvp.IBaseView;
 import com.huangyu.library.rx.RxManager;
@@ -42,6 +46,27 @@ public class MarkdownPreviewFragment extends BaseFragment {
     @Override
     protected void initView(Bundle savedInstanceState) {
         initRxCallback();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_preview, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.action_share:
+//                return true;
+//        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initRxCallback() {

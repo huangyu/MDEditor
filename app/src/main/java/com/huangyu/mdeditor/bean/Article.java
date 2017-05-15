@@ -3,28 +3,31 @@ package com.huangyu.mdeditor.bean;
 import java.io.Serializable;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 /**
  * Created by huangyu on 2017-4-24.
  */
 public class Article extends RealmObject implements Serializable {
 
-    private String name;
+    @PrimaryKey
+    private String id;
 
+    @Required
     private String title;
 
     private String content;
 
-    private String size;
-
+    @Required
     private String modifyTime;
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -41,14 +44,6 @@ public class Article extends RealmObject implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
     }
 
     public String getModifyTime() {
