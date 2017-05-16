@@ -8,7 +8,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.huangyu.library.mvp.IBaseView;
-import com.huangyu.library.rx.RxManager;
 import com.huangyu.library.ui.BaseFragment;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.ui.widget.MarkdownPreviewView;
@@ -70,13 +69,13 @@ public class MarkdownPreviewFragment extends BaseFragment {
     }
 
     private void initRxCallback() {
-        RxManager.getInstance().on("refreshTitle", new Action1<String>() {
+        mRxManager.on("refreshTitle", new Action1<String>() {
             @Override
             public void call(String s) {
                 refreshTitle(s);
             }
         });
-        RxManager.getInstance().on("refreshContent", new Action1<String>() {
+        mRxManager.on("refreshContent", new Action1<String>() {
             @Override
             public void call(String s) {
                 refreshContent(s);

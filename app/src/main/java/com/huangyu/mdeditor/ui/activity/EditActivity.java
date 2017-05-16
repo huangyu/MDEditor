@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.huangyu.library.mvp.IBaseView;
-import com.huangyu.library.rx.RxManager;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Mode;
 import com.huangyu.mdeditor.ui.fragment.MarkdownEditorFragment;
@@ -74,8 +73,8 @@ public class EditActivity extends BaseToolbarActivity {
             @Override
             public void onPageSelected(int position) {
                 if (position == 1) {
-                    RxManager.getInstance().post("getTitle", "");
-                    RxManager.getInstance().post("getContent", "");
+                    mRxManager.post("getTitle", "");
+                    mRxManager.post("getContent", "");
                 }
             }
 
@@ -84,6 +83,7 @@ public class EditActivity extends BaseToolbarActivity {
 
             }
         });
+        mViewPager.setOffscreenPageLimit(2);
     }
 
     @Override

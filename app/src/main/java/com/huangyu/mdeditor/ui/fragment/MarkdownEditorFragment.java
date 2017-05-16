@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.huangyu.library.rx.RxManager;
 import com.huangyu.library.ui.BaseFragment;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Article;
@@ -96,16 +95,16 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
     }
 
     private void initRxCallback() {
-        RxManager.getInstance().on("getTitle", new Action1<String>() {
+        mRxManager.on("getTitle", new Action1<String>() {
             @Override
             public void call(String s) {
-                RxManager.getInstance().post("refreshTitle", getTitle());
+                mRxManager.post("refreshTitle", getTitle());
             }
         });
-        RxManager.getInstance().on("getContent", new Action1<String>() {
+        mRxManager.on("getContent", new Action1<String>() {
             @Override
             public void call(String s) {
-                RxManager.getInstance().post("refreshContent", getContent());
+                mRxManager.post("refreshContent", getContent());
             }
         });
     }
