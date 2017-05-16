@@ -30,7 +30,7 @@ public class EditActivity extends BaseToolbarActivity {
     private MarkdownEditorFragment mEditorFragment;
     private MarkdownPreviewFragment mPreviewFragment;
 
-    private AlertDialog alertDialog;
+    private AlertDialog mAlertDialog;
 
     @Override
     protected int getLayoutId() {
@@ -95,7 +95,7 @@ public class EditActivity extends BaseToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                alertDialog = AlertUtils.showAlert(this, getString(R.string.tips_save_before_exit), getString(R.string.act_save), getString(R.string.act_not_save), new DialogInterface.OnClickListener() {
+                mAlertDialog = AlertUtils.showAlert(this, getString(R.string.tips_save_before_exit), getString(R.string.act_save), getString(R.string.act_not_save), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mEditorFragment.save();
@@ -141,8 +141,8 @@ public class EditActivity extends BaseToolbarActivity {
 
     @Override
     protected void onDestroy() {
-        if (alertDialog != null && alertDialog.isShowing()) {
-            alertDialog.dismiss();
+        if (mAlertDialog != null && mAlertDialog.isShowing()) {
+            mAlertDialog.dismiss();
         }
         super.onDestroy();
     }

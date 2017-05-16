@@ -3,10 +3,14 @@ package com.huangyu.mdeditor.ui.activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -39,18 +43,21 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
     RecyclerView mRvArticle;
 
     @Bind(R.id.ll_empty)
-    LinearLayout llEmpty;
+    LinearLayout mLlEmpty;
 
     @Bind(R.id.rl_main)
-    RelativeLayout rlMain;
+    RelativeLayout mRlMain;
 
     @Bind(R.id.srl_main)
-    SwipeRefreshLayout srlMain;
+    SwipeRefreshLayout mSrlMain;
 
-    private AlertDialog alertDialog;
-    private ArticleAdapter adapter;
+    private AlertDialog mAlertDialog;
+    private ArticleAdapter mAdapter;
 
-    private long currentTime;
+    private SearchView mSearchView;
+    private boolean isSearchViewShow;
+
+    private long mCurrentTime;
 
     @Override
     protected int getLayoutId() {
@@ -66,8 +73,8 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
 
-        srlMain.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
-        srlMain.setOnRefreshListener(this);
+        mSrlMain.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        mSrlMain.setOnRefreshListener(this);
 
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,24 +85,24 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
             }
         });
 
-        adapter = new ArticleAdapter(this);
-        adapter.setOnItemClick(new CommonRecyclerViewAdapter.OnItemClickListener() {
+        mAdapter = new ArticleAdapter(this);
+        mAdapter.setOnItemClick(new CommonRecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Article article = adapter.getItem(position);
+                Article article = mAdapter.getItem(position);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("article", article);
                 bundle.putString("mode", Mode.MODE_PREVIEW);
                 startActivity(EditActivity.class, bundle);
             }
         });
-        adapter.setOnItemLongClick(new CommonRecyclerViewAdapter.OnItemLongClickListener() {
+        mAdapter.setOnItemLongClick(new CommonRecyclerViewAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, final int position) {
-                alertDialog = AlertUtils.showAlert(MainActivity.this, getString(R.string.tips_delete_article), getString(R.string.act_delete), getString(R.string.act_not_delete), new DialogInterface.OnClickListener() {
+                mAlertDialog = AlertUtils.showAlert(MainActivity.this, getString(R.string.tips_delete_article), getString(R.string.act_delete), getString(R.string.act_not_delete), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Article article = adapter.getItem(position);
+                        Article article = mAdapter.getItem(position);
                         mPresenter.deleteArticle(article.getId(), position, getString(R.string.tips_delete_successfully), getString(R.string.tips_delete_error));
                         dialog.dismiss();
                     }
@@ -109,7 +116,7 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
             }
         });
         mRvArticle.setLayoutManager(new LinearLayoutManager(this));
-        mRvArticle.setAdapter(adapter);
+        mRvArticle.setAdapter(mAdapter);
     }
 
     @Override
@@ -121,49 +128,81 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
     @Override
     public void onRefresh() {
         refreshData();
-        srlMain.setRefreshing(false);
+        mSrlMain.setRefreshing(false);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        initSearchView(menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_search:
+    private void initSearchView(Menu menu) {
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String text) {
+                if (!TextUtils.isEmpty(text)) {
+                    mPresenter.queryArticlesBySearch(text);
+                }
+                mSearchView.setIconified(false);
                 return true;
-        }
-        return super.onOptionsItemSelected(item);
+            }
+
+            public boolean onQueryTextChange(String s) {
+                if (s.length() == 0) {
+                    onRefresh();
+                }
+                return false;
+            }
+        });
+        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    isSearchViewShow = true;
+                }
+            }
+        });
+
+        AppCompatAutoCompleteTextView editText = (AppCompatAutoCompleteTextView) mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
     }
 
     @Override
     public void onBackPressed() {
+        if (mSearchView != null && mSearchView.isShown() && isSearchViewShow) {
+            mSearchView.onActionViewCollapsed();
+            mSearchView.setQuery("", false);
+            supportInvalidateOptionsMenu();
+            isSearchViewShow = false;
+            return;
+        }
+
         if (isDoubleCheck()) {
             finish();
         } else {
-            currentTime = System.currentTimeMillis();
+            mCurrentTime = System.currentTimeMillis();
             Toast.makeText(this, getString(R.string.tips_leave), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void refreshData() {
-        adapter.clearData();
+        mAdapter.clearData();
         List<Article> articleList = mPresenter.queryAllArticles();
         if (articleList.isEmpty()) {
-            llEmpty.setVisibility(View.VISIBLE);
+            mLlEmpty.setVisibility(View.VISIBLE);
         } else {
-            llEmpty.setVisibility(View.GONE);
+            mLlEmpty.setVisibility(View.GONE);
 
-            adapter.setData(articleList);
-            adapter.notifyDataSetChanged();
+            mAdapter.setData(articleList);
+            mAdapter.notifyDataSetChanged();
         }
     }
 
     private boolean isDoubleCheck() {
-        return Math.abs(currentTime - System.currentTimeMillis()) < 2000;
+        return Math.abs(mCurrentTime - System.currentTimeMillis()) < 2000;
     }
 
     @Override
@@ -178,28 +217,28 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
 
     @Override
     public void showTips(String content) {
-        AlertUtils.showSnack(rlMain, content);
+        AlertUtils.showSnack(mRlMain, content);
     }
 
     @Override
     public void adapterRemove(int position) {
-        if (position == adapter.getItemCount() - 1) {
-            adapter.removeItem(position);
-            adapter.notifyDataSetChanged();
+        if (position == mAdapter.getItemCount() - 1) {
+            mAdapter.removeItem(position);
+            mAdapter.notifyDataSetChanged();
         } else {
-            adapter.removeItem(position);
-            adapter.notifyItemRemoved(position);
+            mAdapter.removeItem(position);
+            mAdapter.notifyItemRemoved(position);
         }
 
-        if (adapter.getItemCount() == 0) {
-            llEmpty.setVisibility(View.VISIBLE);
+        if (mAdapter.getItemCount() == 0) {
+            mLlEmpty.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     protected void onDestroy() {
-        if (alertDialog != null && alertDialog.isShowing()) {
-            alertDialog.dismiss();
+        if (mAlertDialog != null && mAlertDialog.isShowing()) {
+            mAlertDialog.dismiss();
         }
         super.onDestroy();
     }
