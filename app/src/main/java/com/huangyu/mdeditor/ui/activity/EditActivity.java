@@ -95,7 +95,7 @@ public class EditActivity extends BaseToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                alertDialog = SysUtils.showAlert(this, getString(R.string.tips_save_and_exit), getString(R.string.act_exit), getString(R.string.act_cancel), new DialogInterface.OnClickListener() {
+                alertDialog = SysUtils.showAlert(this, getString(R.string.tips_save_before_exit), getString(R.string.act_save), getString(R.string.act_not_save), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mEditorFragment.save();
@@ -105,6 +105,7 @@ public class EditActivity extends BaseToolbarActivity {
                 }, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        onBackPressed();
                         dialog.dismiss();
                     }
                 });

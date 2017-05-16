@@ -34,12 +34,12 @@ public class MainPresenter extends BasePresenter<IMainView> {
             @Override
             public void onSuccess() {
                 mView.adapterRemove(position);
-                mView.showToast(success);
+                mView.showTips(success);
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                mView.showToast(error + error.toString());
+                mView.showTips(error + error.toString());
             }
         });
     }

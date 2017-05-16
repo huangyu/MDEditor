@@ -7,14 +7,25 @@
     android:fitsSystemWindows="true"
     tools:context="com.huangyu.mdeditor.ui.activity.MainActivity">
 
-    <include
-        layout="@layout/view_toolbar_fixed" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <include
-        layout="@layout/content_main" />
+        <include layout="@layout/view_toolbar_fixed" />
 
-    <include
-        layout="@layout/view_empty" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <include layout="@layout/content_main" />
+
+            <include layout="@layout/view_empty" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

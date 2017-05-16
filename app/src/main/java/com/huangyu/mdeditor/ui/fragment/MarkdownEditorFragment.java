@@ -6,6 +6,7 @@ import android.support.v7.widget.AppCompatEditText;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 
 import com.huangyu.library.ui.BaseFragment;
 import com.huangyu.mdeditor.R;
@@ -22,6 +23,9 @@ import rx.functions.Action1;
  * Created by huangyu on 2017-4-25.
  */
 public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresenter> implements IEditView {
+
+    @Bind(R.id.ll_editor)
+    LinearLayout llEditor;
 
     @Bind(R.id.et_title)
     AppCompatEditText mEtTitle;
@@ -110,8 +114,8 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
     }
 
     @Override
-    public void showToast(String content) {
-        SysUtils.showToast(getContext(), content);
+    public void showTips(String content) {
+        SysUtils.showSnack(llEditor, content);
     }
 
     @Override

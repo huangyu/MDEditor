@@ -9,9 +9,11 @@
     <string name="act_undo">撤销</string>
     <string name="act_redo">恢复</string>
     <string name="act_save">保存</string>
+    <string name="act_not_save">不保存</string>
     <string name="act_share">分享</string>
 
     <string name="act_delete">删除</string>
+    <string name="act_not_delete">不删除</string>
     <string name="act_exit">退出</string>
     <string name="act_cancel">取消</string>
 
@@ -19,7 +21,7 @@
     <string name="tips_save_error">保存失败</string>
     <string name="tips_delete_successfully">删除成功</string>
     <string name="tips_delete_error">删除失败</string>
-    <string name="tips_save_and_exit">是否保存并退出？</string>
+    <string name="tips_save_before_exit">退出前是否进行保存？</string>
     <string name="tips_leave">双击退出应用</string>
     <string name="tips_delete_article">是否删除此篇文章？</string>
     <string name="tips_no_article">没有文章</string>

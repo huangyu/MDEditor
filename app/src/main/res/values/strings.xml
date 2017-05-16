@@ -9,9 +9,11 @@
     <string name="act_undo">Undo</string>
     <string name="act_redo">Redo</string>
     <string name="act_save">Save</string>
+    <string name="act_not_save">Not save</string>
     <string name="act_share">Share</string>
 
     <string name="act_delete">Delete</string>
+    <string name="act_not_delete">Not delete</string>
     <string name="act_exit">Exit</string>
     <string name="act_cancel">Cancel</string>
 
@@ -19,7 +21,7 @@
     <string name="tips_save_error">Save in error.</string>
     <string name="tips_delete_successfully">Delete successfully.</string>
     <string name="tips_delete_error">Delete in error.</string>
-    <string name="tips_save_and_exit">Save and exit?</string>
+    <string name="tips_save_before_exit">Save before exit?</string>
     <string name="tips_leave">Double click to leave.</string>
     <string name="tips_delete_article">Delete this article?</string>
     <string name="tips_no_article">No Article</string>

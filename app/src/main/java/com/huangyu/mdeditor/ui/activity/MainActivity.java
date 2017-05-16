@@ -3,6 +3,7 @@ package com.huangyu.mdeditor.ui.activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +30,7 @@ import butterknife.Bind;
 /**
  * Created by huangyu on 2017-5-10.
  */
-public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> implements IMainView {
+public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> implements IMainView, SwipeRefreshLayout.OnRefreshListener {
 
     @Bind(R.id.fab)
     FloatingActionButton mFab;
@@ -42,6 +43,9 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
 
     @Bind(R.id.rl_main)
     RelativeLayout rlMain;
+
+    @Bind(R.id.srl_main)
+    SwipeRefreshLayout srlMain;
 
     private AlertDialog alertDialog;
     private ArticleAdapter adapter;
@@ -61,6 +65,10 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
+
+        srlMain.setColorSchemeColors(getResources().getColor(R.color.colorAccent));
+        srlMain.setOnRefreshListener(this);
+
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,7 +92,7 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
         adapter.setOnItemLongClick(new CommonRecyclerViewAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, final int position) {
-                alertDialog = SysUtils.showAlert(MainActivity.this, getString(R.string.tips_delete_article), getString(R.string.act_delete), getString(R.string.act_cancel), new DialogInterface.OnClickListener() {
+                alertDialog = SysUtils.showAlert(MainActivity.this, getString(R.string.tips_delete_article), getString(R.string.act_delete), getString(R.string.act_not_delete), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Article article = adapter.getItem(position);
@@ -107,18 +115,13 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
     @Override
     protected void onResume() {
         super.onResume();
-        adapter.clearData();
-        List<Article> articleList = mPresenter.queryAllArticles();
-        if (articleList.isEmpty()) {
-            rlMain.setVisibility(View.GONE);
-            llEmpty.setVisibility(View.VISIBLE);
-        } else {
-            rlMain.setVisibility(View.VISIBLE);
-            llEmpty.setVisibility(View.GONE);
+        this.onRefresh();
+    }
 
-            adapter.setData(articleList);
-            adapter.notifyDataSetChanged();
-        }
+    @Override
+    public void onRefresh() {
+        refreshData();
+        srlMain.setRefreshing(false);
     }
 
     @Override
@@ -146,6 +149,19 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
         }
     }
 
+    private void refreshData() {
+        adapter.clearData();
+        List<Article> articleList = mPresenter.queryAllArticles();
+        if (articleList.isEmpty()) {
+            llEmpty.setVisibility(View.VISIBLE);
+        } else {
+            llEmpty.setVisibility(View.GONE);
+
+            adapter.setData(articleList);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private boolean isDoubleCheck() {
         return Math.abs(currentTime - System.currentTimeMillis()) < 2000;
     }
@@ -161,8 +177,8 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
     }
 
     @Override
-    public void showToast(String content) {
-        SysUtils.showToast(this, content);
+    public void showTips(String content) {
+        SysUtils.showSnack(rlMain, content);
     }
 
     @Override
@@ -176,7 +192,6 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
         }
 
         if (adapter.getItemCount() == 0) {
-            rlMain.setVisibility(View.GONE);
             llEmpty.setVisibility(View.VISIBLE);
         }
     }
