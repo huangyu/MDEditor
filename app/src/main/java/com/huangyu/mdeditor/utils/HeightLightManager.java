@@ -61,7 +61,7 @@ public class HeightLightManager {
         List<Object> styleList = new ArrayList<>();
         switch (type) {
             case HEAD_LINE_1:
-                styleList.add(new AbsoluteSizeSpan(34, true));
+                styleList.add(new AbsoluteSizeSpan(33, true));
                 styleList.add(new StyleSpan(Typeface.BOLD));
                 break;
             case HEAD_LINE_2:
@@ -69,19 +69,19 @@ public class HeightLightManager {
                 styleList.add(new StyleSpan(Typeface.BOLD));
                 break;
             case HEAD_LINE_3:
-                styleList.add(new AbsoluteSizeSpan(26, true));
+                styleList.add(new AbsoluteSizeSpan(27, true));
                 styleList.add(new StyleSpan(Typeface.BOLD));
                 break;
             case HEAD_LINE_4:
-                styleList.add(new AbsoluteSizeSpan(22, true));
+                styleList.add(new AbsoluteSizeSpan(24, true));
                 styleList.add(new StyleSpan(Typeface.BOLD));
                 break;
             case HEAD_LINE_5:
-                styleList.add(new AbsoluteSizeSpan(18, true));
+                styleList.add(new AbsoluteSizeSpan(21, true));
                 styleList.add(new StyleSpan(Typeface.BOLD));
                 break;
             case HEAD_LINE_6:
-                styleList.add(new AbsoluteSizeSpan(14, true));
+                styleList.add(new AbsoluteSizeSpan(18, true));
                 styleList.add(new StyleSpan(Typeface.BOLD));
                 break;
             case BLOCK_QUOTES:

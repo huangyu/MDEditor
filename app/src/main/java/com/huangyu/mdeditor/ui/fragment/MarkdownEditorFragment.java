@@ -3,6 +3,7 @@ package com.huangyu.mdeditor.ui.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -41,6 +42,7 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
     @Bind(R.id.et_content)
     HighLightEditText mEtContent;
 
+    private AlertDialog mAlertDialog;
 
     private PerformEdit mPeTitle;
     private PerformEdit mPeContent;
@@ -165,6 +167,14 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
             AlertUtils.showSnack(ButterKnife.findById(activity, R.id.rl_main), content);
         } else {
             AlertUtils.showSnack(llEditor, content);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mAlertDialog != null && mAlertDialog.isShowing()) {
+            mAlertDialog.dismiss();
         }
     }
 

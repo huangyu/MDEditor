@@ -96,27 +96,50 @@ public class EditActivity extends BaseToolbarActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 if (!mEditorFragment.canSave()) {
-                    onBackPressed();
+                    finish();
                     return true;
                 }
                 mAlertDialog = AlertUtils.showAlert(this, getString(R.string.tips_save_before_exit), getString(R.string.act_save), getString(R.string.act_not_save), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (mEditorFragment.save(true)) {
-                            onBackPressed();
+                            finish();
                         }
                         dialog.dismiss();
                     }
                 }, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        onBackPressed();
+                        finish();
                         dialog.dismiss();
                     }
                 });
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!mEditorFragment.canSave()) {
+            finish();
+            return;
+        }
+        mAlertDialog = AlertUtils.showAlert(this, getString(R.string.tips_save_before_exit), getString(R.string.act_save), getString(R.string.act_not_save), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (mEditorFragment.save(true)) {
+                    finish();
+                }
+                dialog.dismiss();
+            }
+        }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                dialog.dismiss();
+            }
+        });
     }
 
     @Override
