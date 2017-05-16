@@ -1,7 +1,9 @@
 package com.huangyu.mdeditor.ui.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
@@ -31,6 +33,7 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
     @Bind(R.id.recycler_view)
     RecyclerView mRvArticle;
 
+    private AlertDialog alertDialog;
     private ArticleAdapter adapter;
 
     private long currentTime;
@@ -70,9 +73,21 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
         });
         adapter.setOnItemLongClick(new CommonRecyclerViewAdapter.OnItemLongClickListener() {
             @Override
-            public void onItemLongClick(View view, int position) {
-                Article article = adapter.getItem(position);
-                mPresenter.deleteArticle(article.getId(), position);
+            public void onItemLongClick(View view, final int position) {
+                alertDialog = SysUtils.showAlert(MainActivity.this, getString(R.string.tips_delete_article), getString(R.string.act_delete), getString(R.string.act_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Article article = adapter.getItem(position);
+                        mPresenter.deleteArticle(article.getId(), position, getString(R.string.tips_delete_successfully), getString(R.string.tips_delete_error));
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
             }
         });
         mRvArticle.setLayoutManager(new LinearLayoutManager(this));
@@ -108,7 +123,7 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
             finish();
         } else {
             currentTime = System.currentTimeMillis();
-            Toast.makeText(this, "再按一次退出软件", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.tips_leave), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -136,4 +151,13 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
         adapter.removeItem(position);
         adapter.notifyItemRemoved(position);
     }
+
+    @Override
+    protected void onDestroy() {
+        if (alertDialog != null && alertDialog.isShowing()) {
+            alertDialog.dismiss();
+        }
+        super.onDestroy();
+    }
+
 }

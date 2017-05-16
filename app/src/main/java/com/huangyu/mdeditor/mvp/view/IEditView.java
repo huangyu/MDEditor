@@ -7,4 +7,6 @@ import com.huangyu.library.mvp.IBaseView;
  */
 
 public interface IEditView extends IBaseView {
+    String getTitle();
+    String getContent();
 }

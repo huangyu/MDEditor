@@ -87,11 +87,11 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
         return super.onOptionsItemSelected(item);
     }
 
-    private void save() {
+    public void save() {
         if (article == null) {
-            mPresenter.save(null, mEtTitle.getText().toString(), mEtContent.getText().toString());
+            mPresenter.save(null, getTitle(), getContent(), getString(R.string.tips_save_successfully), getString(R.string.tips_save_error));
         } else {
-            mPresenter.save(article.getId(), mEtTitle.getText().toString(), mEtContent.getText().toString());
+            mPresenter.save(article.getId(), getTitle(), getContent(), getString(R.string.tips_save_successfully), getString(R.string.tips_save_error));
         }
     }
 
@@ -99,13 +99,13 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
         RxManager.getInstance().on("getTitle", new Action1<String>() {
             @Override
             public void call(String s) {
-                RxManager.getInstance().post("refreshTitle", mEtTitle.getText().toString());
+                RxManager.getInstance().post("refreshTitle", getTitle());
             }
         });
         RxManager.getInstance().on("getContent", new Action1<String>() {
             @Override
             public void call(String s) {
-                RxManager.getInstance().post("refreshContent", mEtContent.getText().toString());
+                RxManager.getInstance().post("refreshContent", getContent());
             }
         });
     }
@@ -113,6 +113,16 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
     @Override
     public void showToast(String content) {
         SysUtils.showToast(getContext(), content);
+    }
+
+    @Override
+    public String getTitle() {
+        return mEtTitle.getText().toString();
+    }
+
+    @Override
+    public String getContent() {
+        return mEtTitle.getText().toString();
     }
 
 }

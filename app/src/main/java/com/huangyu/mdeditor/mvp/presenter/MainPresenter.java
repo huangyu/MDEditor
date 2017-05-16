@@ -29,17 +29,17 @@ public class MainPresenter extends BasePresenter<IMainView> {
         return mEditModel.queryArticlesBySearch(search);
     }
 
-    public void deleteArticle(String id, final int position) {
+    public void deleteArticle(String id, final int position, final String success, final String error) {
         mEditModel.deleteArticle(id, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
                 mView.adapterRemove(position);
-                mView.showToast("删除成功！");
+                mView.showToast(success);
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable error) {
-                mView.showToast("删除失败！" + error.toString());
+                mView.showToast(error + error.toString());
             }
         });
     }

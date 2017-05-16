@@ -1,10 +1,12 @@
 package com.huangyu.mdeditor.ui.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -14,6 +16,7 @@ import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Mode;
 import com.huangyu.mdeditor.ui.fragment.MarkdownEditorFragment;
 import com.huangyu.mdeditor.ui.fragment.MarkdownPreviewFragment;
+import com.huangyu.mdeditor.utils.SysUtils;
 
 import butterknife.Bind;
 
@@ -27,6 +30,8 @@ public class EditActivity extends BaseToolbarActivity {
 
     private MarkdownEditorFragment mEditorFragment;
     private MarkdownPreviewFragment mPreviewFragment;
+
+    private AlertDialog alertDialog;
 
     @Override
     protected int getLayoutId() {
@@ -90,7 +95,19 @@ public class EditActivity extends BaseToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                onBackPressed();
+                alertDialog = SysUtils.showAlert(this, getString(R.string.tips_save_and_exit), getString(R.string.act_exit), getString(R.string.act_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mEditorFragment.save();
+                        onBackPressed();
+                        dialog.dismiss();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -119,7 +136,14 @@ public class EditActivity extends BaseToolbarActivity {
         public int getCount() {
             return 2;
         }
+    }
 
+    @Override
+    protected void onDestroy() {
+        if (alertDialog != null && alertDialog.isShowing()) {
+            alertDialog.dismiss();
+        }
+        super.onDestroy();
     }
 
 }

@@ -14,12 +14,10 @@ public class Article extends RealmObject implements Serializable {
     @PrimaryKey
     private String id;
 
-    @Required
     private String title;
 
     private String content;
 
-    @Required
     private String modifyTime;
 
     public String getId() {

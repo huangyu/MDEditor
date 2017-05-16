@@ -1,6 +1,8 @@
 package com.huangyu.mdeditor.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -101,6 +103,21 @@ public class SysUtils {
      */
     public static void showToast(Context context, String content) {
         Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * 显示提示框
+     *
+     * @param context
+     * @param message
+     * @param positiveClick
+     * @param negativeClick
+     * @return
+     */
+    public static AlertDialog showAlert(Context context, String message, String positiveString, String negativeString, DialogInterface.OnClickListener positiveClick, DialogInterface.OnClickListener negativeClick) {
+        AlertDialog alertDialog = new AlertDialog.Builder(context).setMessage(message).setPositiveButton(positiveString, positiveClick).setNegativeButton(negativeString, negativeClick).create();
+        alertDialog.show();
+        return alertDialog;
     }
 
 }
