@@ -22,7 +22,7 @@
     <string name="tips_delete_successfully">删除成功</string>
     <string name="tips_delete_error">删除失败</string>
     <string name="tips_save_before_exit">退出前是否进行保存？</string>
-    <string name="tips_leave">双击退出应用</string>
+    <string name="tips_leave">快速双击退出应用</string>
     <string name="tips_delete_article">是否删除此篇文章？</string>
     <string name="tips_no_article">没有文章</string>
     <string name="tips_click_to_add">请点击右下角按钮添加文章</string>

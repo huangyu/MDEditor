@@ -198,7 +198,7 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
     }
 
     private boolean isDoubleCheck() {
-        return Math.abs(mCurrentTime - System.currentTimeMillis()) < 2000;
+        return Math.abs(mCurrentTime - System.currentTimeMillis()) < 1000;
     }
 
     @Override
