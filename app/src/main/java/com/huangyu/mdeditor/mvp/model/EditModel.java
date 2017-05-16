@@ -62,7 +62,7 @@ public class EditModel {
 
     public List<Article> queryArticlesBySearch(String search) {
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Article> articleResults = realm.where(Article.class).like("title", search).like("content", search).findAll();
+        RealmResults<Article> articleResults = realm.where(Article.class).like("title", "*" + search + "*").or().like("content", "*" + search + "*").findAll();
         return realm.copyFromRealm(articleResults);
     }
 

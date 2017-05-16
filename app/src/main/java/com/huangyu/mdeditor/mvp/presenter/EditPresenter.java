@@ -18,16 +18,16 @@ public class EditPresenter extends BasePresenter<IEditView> {
         mEditModel = new EditModel();
     }
 
-    public void save(String id, String title, String content, final String success, final String error) {
+    public void save(final boolean ifEXit, String id, String title, String content, final String success, final String error) {
         mEditModel.saveArticle(id, title, content, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                mView.showTips(success);
+                mView.showTips(success, ifEXit);
             }
         }, new Realm.Transaction.OnError() {
             @Override
             public void onError(Throwable throwable) {
-                mView.showTips(error + throwable.toString());
+                mView.showTips(error + throwable.toString(), ifEXit);
             }
         });
     }

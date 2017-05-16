@@ -7,5 +7,6 @@ import com.huangyu.library.mvp.IBaseView;
  */
 
 public interface IMainView extends IBaseView {
-    void adapterRemove(int position);
+    void showTips(String content);
+    void removeData(int position);
 }

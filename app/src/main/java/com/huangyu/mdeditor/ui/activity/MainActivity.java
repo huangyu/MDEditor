@@ -6,7 +6,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.huangyu.library.ui.CommonRecyclerViewAdapter;
 import com.huangyu.mdeditor.R;
@@ -127,7 +125,7 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
 
     @Override
     public void onRefresh() {
-        refreshData();
+        refreshData(null);
         mSrlMain.setRefreshing(false);
     }
 
@@ -144,17 +142,12 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String text) {
-                if (!TextUtils.isEmpty(text)) {
-                    mPresenter.queryArticlesBySearch(text);
-                }
                 mSearchView.setIconified(false);
                 return true;
             }
 
-            public boolean onQueryTextChange(String s) {
-                if (s.length() == 0) {
-                    onRefresh();
-                }
+            public boolean onQueryTextChange(String text) {
+                refreshData(text);
                 return false;
             }
         });
@@ -166,8 +159,6 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
                 }
             }
         });
-
-        AppCompatAutoCompleteTextView editText = (AppCompatAutoCompleteTextView) mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
     }
 
     @Override
@@ -184,14 +175,19 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
             finish();
         } else {
             mCurrentTime = System.currentTimeMillis();
-            Toast.makeText(this, getString(R.string.tips_leave), Toast.LENGTH_SHORT).show();
+            AlertUtils.showSnack(mRlMain, getString(R.string.tips_leave));
         }
     }
 
-    private void refreshData() {
+    private void refreshData(String search) {
         mAdapter.clearData();
-        List<Article> articleList = mPresenter.queryAllArticles();
-        if (articleList.isEmpty()) {
+        List<Article> articleList;
+        if (TextUtils.isEmpty(search)) {
+            articleList = mPresenter.queryAllArticles();
+        } else {
+            articleList = mPresenter.queryArticlesBySearch(search);
+        }
+        if (articleList == null || articleList.isEmpty()) {
             mLlEmpty.setVisibility(View.VISIBLE);
         } else {
             mLlEmpty.setVisibility(View.GONE);
@@ -221,7 +217,7 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
     }
 
     @Override
-    public void adapterRemove(int position) {
+    public void removeData(int position) {
         if (position == mAdapter.getItemCount() - 1) {
             mAdapter.removeItem(position);
             mAdapter.notifyDataSetChanged();

@@ -26,5 +26,6 @@
     <string name="tips_delete_article">Delete this article?</string>
     <string name="tips_no_article">No Article</string>
     <string name="tips_click_to_add">Click the right-bottom button to add.</string>
+    <string name="tips_title_empty">Title is empty.</string>
 
 </resources>

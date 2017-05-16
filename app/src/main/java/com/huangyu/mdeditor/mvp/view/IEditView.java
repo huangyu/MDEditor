@@ -7,6 +7,7 @@ import com.huangyu.library.mvp.IBaseView;
  */
 
 public interface IEditView extends IBaseView {
+    void showTips(String content, boolean ifExit);
     String getTitle();
     String getContent();
 }

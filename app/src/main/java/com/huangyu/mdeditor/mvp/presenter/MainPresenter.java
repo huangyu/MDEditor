@@ -33,7 +33,7 @@ public class MainPresenter extends BasePresenter<IMainView> {
         mEditModel.deleteArticle(id, new Realm.Transaction.OnSuccess() {
             @Override
             public void onSuccess() {
-                mView.adapterRemove(position);
+                mView.removeData(position);
                 mView.showTips(success);
             }
         }, new Realm.Transaction.OnError() {
