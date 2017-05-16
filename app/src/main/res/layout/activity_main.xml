@@ -7,9 +7,14 @@
     android:fitsSystemWindows="true"
     tools:context="com.huangyu.mdeditor.ui.activity.MainActivity">
 
-    <include layout="@layout/view_toolbar_fixed" />
+    <include
+        layout="@layout/view_toolbar_fixed" />
 
-    <include layout="@layout/content_main" />
+    <include
+        layout="@layout/content_main" />
+
+    <include
+        layout="@layout/view_empty" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.huangyu.library.ui.CommonRecyclerViewAdapter;
@@ -19,6 +21,8 @@ import com.huangyu.mdeditor.mvp.presenter.MainPresenter;
 import com.huangyu.mdeditor.mvp.view.IMainView;
 import com.huangyu.mdeditor.ui.adapter.ArticleAdapter;
 import com.huangyu.mdeditor.utils.SysUtils;
+
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -32,6 +36,12 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
 
     @Bind(R.id.recycler_view)
     RecyclerView mRvArticle;
+
+    @Bind(R.id.ll_empty)
+    LinearLayout llEmpty;
+
+    @Bind(R.id.rl_main)
+    RelativeLayout rlMain;
 
     private AlertDialog alertDialog;
     private ArticleAdapter adapter;
@@ -98,8 +108,17 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
     protected void onResume() {
         super.onResume();
         adapter.clearData();
-        adapter.setData(mPresenter.queryAllArticles());
-        adapter.notifyDataSetChanged();
+        List<Article> articleList = mPresenter.queryAllArticles();
+        if (articleList.isEmpty()) {
+            rlMain.setVisibility(View.GONE);
+            llEmpty.setVisibility(View.VISIBLE);
+        } else {
+            rlMain.setVisibility(View.VISIBLE);
+            llEmpty.setVisibility(View.GONE);
+
+            adapter.setData(articleList);
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override
@@ -154,6 +173,11 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
         } else {
             adapter.removeItem(position);
             adapter.notifyItemRemoved(position);
+        }
+
+        if (adapter.getItemCount() == 0) {
+            rlMain.setVisibility(View.GONE);
+            llEmpty.setVisibility(View.VISIBLE);
         }
     }
 
