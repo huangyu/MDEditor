@@ -8,7 +8,7 @@ import com.huangyu.library.ui.CommonRecyclerViewAdapter;
 import com.huangyu.library.ui.CommonRecyclerViewHolder;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Article;
-import com.huangyu.mdeditor.utils.SysUtils;
+import com.huangyu.mdeditor.utils.DateUtils;
 
 /**
  * Created by huangyu on 2017-5-10.
@@ -28,7 +28,7 @@ public class ArticleAdapter extends CommonRecyclerViewAdapter<Article> {
 
         tvName.setText(data.getTitle());
         tvSize.setText(data.getContent());
-        tvTime.setText(SysUtils.getFormatDate(SysUtils.stringToDate(data.getModifyTime())));
+        tvTime.setText(DateUtils.getFormatDate(DateUtils.stringToDate(data.getModifyTime())));
         if (position == getItemCount() - 1) {
             divider.setVisibility(View.GONE);
         } else {

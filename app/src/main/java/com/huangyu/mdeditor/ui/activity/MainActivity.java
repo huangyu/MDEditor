@@ -21,7 +21,7 @@ import com.huangyu.mdeditor.bean.Mode;
 import com.huangyu.mdeditor.mvp.presenter.MainPresenter;
 import com.huangyu.mdeditor.mvp.view.IMainView;
 import com.huangyu.mdeditor.ui.adapter.ArticleAdapter;
-import com.huangyu.mdeditor.utils.SysUtils;
+import com.huangyu.mdeditor.utils.AlertUtils;
 
 import java.util.List;
 
@@ -92,7 +92,7 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
         adapter.setOnItemLongClick(new CommonRecyclerViewAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClick(View view, final int position) {
-                alertDialog = SysUtils.showAlert(MainActivity.this, getString(R.string.tips_delete_article), getString(R.string.act_delete), getString(R.string.act_not_delete), new DialogInterface.OnClickListener() {
+                alertDialog = AlertUtils.showAlert(MainActivity.this, getString(R.string.tips_delete_article), getString(R.string.act_delete), getString(R.string.act_not_delete), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Article article = adapter.getItem(position);
@@ -178,7 +178,7 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
 
     @Override
     public void showTips(String content) {
-        SysUtils.showSnack(rlMain, content);
+        AlertUtils.showSnack(rlMain, content);
     }
 
     @Override

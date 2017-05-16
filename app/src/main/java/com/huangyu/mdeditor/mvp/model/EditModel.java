@@ -1,7 +1,7 @@
 package com.huangyu.mdeditor.mvp.model;
 
 import com.huangyu.mdeditor.bean.Article;
-import com.huangyu.mdeditor.utils.SysUtils;
+import com.huangyu.mdeditor.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -85,7 +85,7 @@ public class EditModel {
 
         article.setTitle(title);
         article.setContent(content);
-        article.setModifyTime(SysUtils.dateToString(new Date()));
+        article.setModifyTime(DateUtils.dateToString(new Date()));
 
         realm.insertOrUpdate(article);
     }

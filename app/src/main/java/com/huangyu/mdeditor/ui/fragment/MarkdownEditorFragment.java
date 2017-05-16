@@ -1,5 +1,6 @@
 package com.huangyu.mdeditor.ui.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatEditText;
@@ -8,15 +9,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
+import com.huangyu.library.app.ActivityManager;
 import com.huangyu.library.ui.BaseFragment;
 import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Article;
 import com.huangyu.mdeditor.mvp.presenter.EditPresenter;
 import com.huangyu.mdeditor.mvp.view.IEditView;
+import com.huangyu.mdeditor.ui.activity.MainActivity;
 import com.huangyu.mdeditor.ui.widget.HighLightEditText;
-import com.huangyu.mdeditor.utils.SysUtils;
+import com.huangyu.mdeditor.utils.AlertUtils;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import rx.functions.Action1;
 
 /**
@@ -115,7 +119,12 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
 
     @Override
     public void showTips(String content) {
-        SysUtils.showSnack(llEditor, content);
+        Activity activity = ActivityManager.getInstance().preActivity();
+        if (activity instanceof MainActivity) {
+            AlertUtils.showSnack(ButterKnife.findById(activity, R.id.rl_main), content);
+        } else {
+            AlertUtils.showSnack(llEditor, content);
+        }
     }
 
     @Override

@@ -1,15 +1,5 @@
 package com.huangyu.mdeditor.utils;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.view.View;
-import android.widget.Toast;
-
-import com.huangyu.mdeditor.R;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,20 +8,34 @@ import java.util.Date;
 import java.util.Locale;
 
 /**
- * Created by huangyu on 2017/5/15.
+ * Created by huangyu on 2017-5-16.
  */
-
-public class SysUtils {
+public class DateUtils {
 
     private static String DATE_FORMAT_yyyyMMddHHmmss = "yyyy-MM-dd HH:mm:ss";
     private static String DATE_FORMAT_yyyyMMdd = "yyyy-MM-dd";
     private static String DATE_FORMAT_MMdd = "MM-dd";
 
+    private DateUtils() {
+    }
+
+    /**
+     * Date转String
+     *
+     * @param date 日期
+     * @return String
+     */
     public static String dateToString(Date date) {
         DateFormat format = new SimpleDateFormat(DATE_FORMAT_yyyyMMddHHmmss, Locale.getDefault());
         return format.format(date);
     }
 
+    /**
+     * String转Date
+     *
+     * @param str 时间字符串
+     * @return Date
+     */
     public static Date stringToDate(String str) {
         DateFormat format = new SimpleDateFormat(DATE_FORMAT_yyyyMMddHHmmss, Locale.getDefault());
         Date date = null;
@@ -98,46 +102,6 @@ public class SysUtils {
             time = new SimpleDateFormat(DATE_FORMAT_yyyyMMdd, Locale.getDefault()).format(date);
         }
         return time;
-    }
-
-    /**
-     * 显示Toast
-     *
-     * @param context context
-     * @param content 内容
-     */
-    public static void showToast(Context context, String content) {
-        Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
-    }
-
-    /**
-     * 显示Snack
-     *
-     * @param view    view
-     * @param content 内容
-     */
-    public static void showSnack(@NonNull View view, String content) {
-        Snackbar.make(view, content, Snackbar.LENGTH_SHORT).show();
-    }
-
-    /**
-     * 显示提示框
-     *
-     * @param context       context
-     * @param message       信息
-     * @param positiveClick 肯定按钮事件
-     * @param negativeClick 否定按钮事件
-     * @return dialog
-     */
-    public static AlertDialog showAlert(Context context, String message, String positiveString, String negativeString, DialogInterface.OnClickListener positiveClick, DialogInterface.OnClickListener negativeClick) {
-        AlertDialog alertDialog = new AlertDialog.Builder(context).setMessage(message).setNeutralButton(context.getString(R.string.act_cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        }).setPositiveButton(positiveString, positiveClick).setNegativeButton(negativeString, negativeClick).create();
-        alertDialog.show();
-        return alertDialog;
     }
 
 }

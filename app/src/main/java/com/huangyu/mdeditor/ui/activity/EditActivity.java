@@ -15,7 +15,7 @@ import com.huangyu.mdeditor.R;
 import com.huangyu.mdeditor.bean.Mode;
 import com.huangyu.mdeditor.ui.fragment.MarkdownEditorFragment;
 import com.huangyu.mdeditor.ui.fragment.MarkdownPreviewFragment;
-import com.huangyu.mdeditor.utils.SysUtils;
+import com.huangyu.mdeditor.utils.AlertUtils;
 
 import butterknife.Bind;
 
@@ -95,7 +95,7 @@ public class EditActivity extends BaseToolbarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                alertDialog = SysUtils.showAlert(this, getString(R.string.tips_save_before_exit), getString(R.string.act_save), getString(R.string.act_not_save), new DialogInterface.OnClickListener() {
+                alertDialog = AlertUtils.showAlert(this, getString(R.string.tips_save_before_exit), getString(R.string.act_save), getString(R.string.act_not_save), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mEditorFragment.save();

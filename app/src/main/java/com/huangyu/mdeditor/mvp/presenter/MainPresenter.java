@@ -38,8 +38,8 @@ public class MainPresenter extends BasePresenter<IMainView> {
             }
         }, new Realm.Transaction.OnError() {
             @Override
-            public void onError(Throwable error) {
-                mView.showTips(error + error.toString());
+            public void onError(Throwable throwable) {
+                mView.showTips(error + throwable.toString());
             }
         });
     }
