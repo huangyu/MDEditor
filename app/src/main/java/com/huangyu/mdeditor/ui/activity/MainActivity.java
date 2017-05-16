@@ -148,8 +148,13 @@ public class MainActivity extends BaseToolbarActivity<IMainView, MainPresenter> 
 
     @Override
     public void adapterRemove(int position) {
-        adapter.removeItem(position);
-        adapter.notifyItemRemoved(position);
+        if (position == adapter.getItemCount() - 1) {
+            adapter.removeItem(position);
+            adapter.notifyDataSetChanged();
+        } else {
+            adapter.removeItem(position);
+            adapter.notifyItemRemoved(position);
+        }
     }
 
     @Override
