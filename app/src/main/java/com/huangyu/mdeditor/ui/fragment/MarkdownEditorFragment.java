@@ -122,7 +122,7 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
 
     @Override
     public String getContent() {
-        return mEtTitle.getText().toString();
+        return mEtContent.getText().toString();
     }
 
 }
