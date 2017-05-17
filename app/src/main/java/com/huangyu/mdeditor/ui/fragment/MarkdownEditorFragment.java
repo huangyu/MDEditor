@@ -126,11 +126,14 @@ public class MarkdownEditorFragment extends BaseFragment<IEditView, EditPresente
             KeyboardUtils.showSoftInput(mEtTitle);
             return false;
         }
+
         if (article == null) {
             mPresenter.save(ifExit, null, getTitle(), getContent(), getString(R.string.tips_save_successfully), getString(R.string.tips_save_error));
         } else {
             mPresenter.save(ifExit, article.getId(), getTitle(), getContent(), getString(R.string.tips_save_successfully), getString(R.string.tips_save_error));
         }
+
+        isChanged = false;
         return true;
     }
 

@@ -8,7 +8,7 @@ import android.widget.EditText;
 import java.util.Stack;
 
 /**
- * Created by huangyu on 2017/5/16.
+ * https://github.com/qinci/AndroidEdit
  */
 
 public class PerformEdit {
