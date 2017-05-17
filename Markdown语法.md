@@ -60,10 +60,6 @@ __bold__
     
 ---
 **8. 代码**
-
-        public class MyClass {
-        
-        }
         
 ```
 public class MyClass {
@@ -87,23 +83,14 @@ public class MyClass {
 
 address@example.com
 
-<https://github.com/huangyu0522>
+https://github.com/huangyu0522
 
 [github](https://github.com/huangyu0522)
-
-I get 10 times more traffic from [Google][1] than from [Yahoo][2] or [MSN][3].  
-
-[1]: http://google.com/        "Google" 
-[2]: http://search.yahoo.com/  "Yahoo Search" 
-[3]: http://search.msn.com/    "MSN Search"
 
 ---
 **11. 图片**
 
-![alt text](/path/to/img.jpg "Title")
-
-![alt text][id] 
-
-[id]: /path/to/img.jpg "Title"
+![图片](https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1493205521823&di=63bc447616ee02db8af616b9e8f66427&imgtype=0&src=http%3A%2F%2Fwww.pp3.cn%2Fuploads%2F201505%2F2015052508.jpg)
 
 ---
+
